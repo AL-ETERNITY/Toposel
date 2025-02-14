@@ -1,7 +1,7 @@
 # Toposel
 
 ## 📌 Project Overview
-Toposel is a backend API built with **Express.js** and **MongoDB**, designed for user authentication and management. It includes user registration, login, and search functionalities. Authentication is handled via **JWT tokens** to ensure secure access.
+This Project includes a backend API built with **Express.js** and **MongoDB**, designed for user authentication and management. It includes user registration, login, and search functionalities. Authentication is handled via **JWT tokens** to ensure secure access.
 
 ## 🚀 Features
 - **User Registration**: Stores user information (username, email, password, full name, gender, DOB, country) securely.
