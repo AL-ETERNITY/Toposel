@@ -42,18 +42,44 @@ const registerUser = async (req, res) => {
     try{
         const { username,fullname,gender,DOB,Country, email, password } = req.body;
         // checking user already exists or not
+
+        // Check if all fields are provided
+        if (!fullname || !username || !email || !password || !gender || !DOB || !Country) {
+            return res.json({ success: false, message: "All fields are required." });
+        }
+
+        // Check if username or email already exists in database.
+        const usernameExists = await userModel.findOne({ username });
+        const emailExists = await userModel.findOne({ email });
+
+        if (usernameExists || emailExists) {
+            return res.json({ success: false, message: "Account already exists." });
+        }
+
+        if (!validator.isAlphanumeric(username)) {
+            return res.json({ success: false, message: "Please enter a valid username." });
+        }
+
         const exists = await userModel.findOne({email});
         if(exists){
             return res.json({success: false, message: 'User already exists'});
         }
-
-        // validating email format and strong password
+        
         if(!validator.isEmail(email)){
             return res.json({success: false, message: 'Invalid Email'});
         }
 
         if(password.length < 8){
             return res.json({success: false, message: 'Please Enter Strong Password'});
+        }
+
+        const validGenders = ["male", "female", "other"];
+        if (!validGenders.includes(gender.toLowerCase())) {
+            return res.json({ success: false, message: "Please enter a valid gender." });
+        }
+
+        if (!validator.isDate(DOB)) {
+            return res.json({ success: false, message: "Please enter a valid date of birth." });
         }
 
         // hashing password
